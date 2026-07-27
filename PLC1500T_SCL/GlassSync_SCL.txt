@@ -1,0 +1,144 @@
+// ============================================================
+// GlassSync - Digital Twin V6.1 - PLC SCL Code
+// ============================================================
+
+// ──── 1. Cycle Counter ────
+IF "DB_Sync".CycleCounter < 999999 THEN
+    "DB_Sync".CycleCounter := "DB_Sync".CycleCounter + 1;
+ELSE
+    "DB_Sync".CycleCounter := 0;
+END_IF;
+
+// ──── 2. Update Live XYZ Angle from Kinematics ────
+"TO_Data_block_1".Live_XYZ_Angle[1] := "Kinematics_1".Tcp.x;
+"TO_Data_block_1".Live_XYZ_Angle[2] := "Kinematics_1".Tcp.y;
+"TO_Data_block_1".Live_XYZ_Angle[3] := "Kinematics_1".Tcp.z;
+"TO_Data_block_1".Live_XYZ_Angle[4] := "Kinematics_1".Tcp.a;
+
+// ==========================================
+// 3. Power On the 4 Axes
+// ==========================================
+"MC_PWR_Ax1_DB"(Axis := "PositioningAxis_1",
+                Enable := "TO_Data_block_1".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+"MC_PWR_Ax2_DB"(Axis := "PositioningAxis_2",
+                Enable := "TO_Data_block_1".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+"MC_PWR_Ax3_DB"(Axis := "PositioningAxis_3",
+                Enable := "TO_Data_block_1".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+"MC_PWR_Ax4_DB"(Axis := "PositioningAxis_4",
+                Enable := "TO_Data_block_1".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+
+// ==========================================
+// 4. Single Pulse for Motion Commands
+// ==========================================
+IF "TO_Data_block_1".EnableKinematics AND NOT #Old_State THEN
+    #Trigger_All := TRUE;
+ELSE
+    #Trigger_All := FALSE;
+END_IF;
+#Old_State := "TO_Data_block_1".EnableKinematics;
+
+// ==========================================
+// 5. Auto Restart after Offline
+// ==========================================
+IF "MC_MVLNERABS_Robot1_DB".Error OR
+    "MC_MVLNERABS_Robot2_DB".Error OR
+    "MC_MVLNERABS_Robot3_DB".Error OR
+    "MC_MVLNERABS_Robot4_DB".Error THEN
+    
+    "TO_Data_block_1".EnableKinematics := FALSE;
+    "TO_Data_block_1".EnableAll := FALSE;
+    #Restart_Pending := TRUE;
+    
+ELSE
+    IF #Restart_Pending THEN
+        "TO_Data_block_1".EnableAll := TRUE;
+        "TO_Data_block_1".EnableKinematics := TRUE;
+        #Restart_Pending := FALSE;
+    END_IF;
+END_IF;
+
+// ==========================================
+// 6. Blending Parameters
+// ==========================================
+#Temp_Transition_Blend[1] := -1.0;
+#Temp_Transition_Stop[1] := 0.0;
+
+// ==========================================
+// 7. Motion Commands
+// ==========================================
+"MC_MVLNERABS_Robot1_DB"(
+                         AxesGroup := "Kinematics_1",
+                         Execute := #Trigger_All,
+                         Position := "TO_Data_block_1".Pos1,
+                         Velocity := "TO_Data_block_1".Vlcty,
+                         BufferMode := 2,
+                         TransitionParameter := #Temp_Transition_Blend,
+                         DirectionA := 3,
+                         CoordSystem := 0,
+                         Acceleration := -1,
+                         Deceleration := -1,
+                         Jerk := -1,
+                         DynamicAdaption := -1
+);
+
+"MC_MVLNERABS_Robot2_DB"(
+                         AxesGroup := "Kinematics_1",
+                         Execute := #Trigger_All,
+                         Position := "TO_Data_block_1".HmPos,
+                         Velocity := "TO_Data_block_1".Vlcty,
+                         BufferMode := 2,
+                         TransitionParameter := #Temp_Transition_Blend,
+                         DirectionA := 3,
+                         CoordSystem := 0,
+                         Acceleration := -1,
+                         Deceleration := -1,
+                         Jerk := -1,
+                         DynamicAdaption := -1
+);
+
+"MC_MVLNERABS_Robot3_DB"(
+                         AxesGroup := "Kinematics_1",
+                         Execute := #Trigger_All,
+                         Position := "TO_Data_block_1".Pos3,
+                         Velocity := "TO_Data_block_1".Vlcty,
+                         BufferMode := 2,
+                         TransitionParameter := #Temp_Transition_Blend,
+                         DirectionA := 3,
+                         CoordSystem := 0,
+                         Acceleration := -1,
+                         Deceleration := -1,
+                         Jerk := -1,
+                         DynamicAdaption := -1
+);
+
+"MC_MVLNERABS_Robot4_DB"(
+                         AxesGroup := "Kinematics_1",
+                         Execute := #Trigger_All,
+                         Position := "TO_Data_block_1".Pos4,
+                         Velocity := "TO_Data_block_1".Vlcty,
+                         BufferMode := 1,
+                         TransitionParameter := #Temp_Transition_Stop,
+                         DirectionA := 3,
+                         CoordSystem := 0,
+                         Acceleration := -1,
+                         Deceleration := -1,
+                         Jerk := -1,
+                         DynamicAdaption := -1
+);
+
+// ==========================================
+// 8. Read Actual Positions
+// ==========================================
+#ActPos[1] := "PositioningAxis_1".ActualPosition;
+#ActPos[2] := "PositioningAxis_2".ActualPosition;
+#ActPos[3] := "PositioningAxis_3".ActualPosition;
+#ActPos[4] := "PositioningAxis_4".ActualPosition;
+"TO_Data_block_1".ActPos := #ActPos;
