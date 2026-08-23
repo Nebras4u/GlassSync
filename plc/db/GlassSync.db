@@ -1,0 +1,89 @@
+DATA_BLOCK "ABB-IRB-4600-DB01"
+{
+    // =========================================================================
+    // INPUTS (from HMI/SCADA to PLC)
+    // =========================================================================
+    
+    // Basic control commands
+    EnableAll : Bool;              // Enable all axis drives
+    EnableKinematics : Bool;       // Enable kinematics control block
+    Auto_Mode : Bool;              // TRUE = Automatic mode, FALSE = Manual mode
+    
+    // Motion settings
+    Vlcty : LReal;                 // Motion velocity (mm/s)
+    
+    // User-defined positions
+    HomePos : Array[1..4] of LReal;        // Home position [X, Y, Z, A]
+    UpTheLinePos : Array[1..4] of LReal;   // Park/return position after each cycle [X, Y, Z, A]
+    PickUp1 : Array[1..4] of LReal;        // Pickup approach point 1 [X, Y, Z, A]
+    PickUp2 : Array[1..4] of LReal;        // Pickup approach point 2 [X, Y, Z, A]
+    PickUp3 : Array[1..4] of LReal;        // Pickup approach point 3 [X, Y, Z, A]
+    Pos4Maint : Array[1..4] of LReal;      // Maintenance position [X, Y, Z, A]
+    
+    // Manual mode movement triggers
+    Go2Pos4Maint : Bool;           // Move to maintenance position
+    Go2HomePos : Bool;             // Move to home position
+    
+    // Automatic mode stacking triggers
+    Stacking2Left : Bool;          // Run left stacking routine
+    Stacking2Right : Bool;         // Run right stacking routine
+    
+    // Left stacking points (6 points)
+    StackingLeft_Points1 : Array[1..4] of LReal;
+    StackingLeft_Points2 : Array[1..4] of LReal;
+    StackingLeft_Points3 : Array[1..4] of LReal;
+    StackingLeft_Points4 : Array[1..4] of LReal;
+    StackingLeft_Points5 : Array[1..4] of LReal;
+    StackingLeft_Points6 : Array[1..4] of LReal;
+    
+    // Right stacking points (6 points)
+    StackingRight_Points1 : Array[1..4] of LReal;
+    StackingRight_Points2 : Array[1..4] of LReal;
+    StackingRight_Points3 : Array[1..4] of LReal;
+    StackingRight_Points4 : Array[1..4] of LReal;
+    StackingRight_Points5 : Array[1..4] of LReal;
+    StackingRight_Points6 : Array[1..4] of LReal;
+    
+    // Access control
+    AccessControl : Int;           // 0 = ReadOnly, 1 = Operator, 2 = Maintenance Manager
+    
+    // =========================================================================
+    // OUTPUTS (from PLC to HMI/SCADA)
+    // =========================================================================
+    
+    // Actual robot position
+    ActPos : Array[1..4] of LReal;         // Actual TCP position [X, Y, Z, A]
+    
+    // Fault status
+    Group_Fault : Bool;            // Kinematics group fault
+    Axis1_Fault : Bool;            // Axis 1 fault
+    Axis2_Fault : Bool;            // Axis 2 fault
+    Axis3_Fault : Bool;            // Axis 3 fault
+    Axis4_Fault : Bool;            // Axis 4 fault
+    
+    // Dynamic performance data
+    Dynamic_Speed : Array[1..4] of LReal;  // Dynamic speed per axis (mm/s)
+    Dynamic_Torque : Array[1..4] of LReal; // Dynamic torque per axis (N.m)
+    Axis_Power : Array[1..4] of LReal;     // Power consumption per axis (Watts)
+    
+    // Axis limits
+    Axis_Limits : Array[1..4, 1..2] of LReal; // [Axis, Min/Max limit] (degrees)
+    
+    // System status
+    Motion_Active : Bool;          // Motion currently active
+    Emergency_Stop_Active : Bool;  // Emergency stop is active
+    Error_Code : Int;              // Error code (0 = no error)
+    
+    // =========================================================================
+    // PROFIdrive TELEGRAM DATA (Drive communication)
+    // =========================================================================
+    
+    RobotDB_A1 : PD_TEL3;          // PROFIdrive telegram 3 - Axis 1 drive
+    RobotDB_A2 : PD_TEL3;          // PROFIdrive telegram 3 - Axis 2 drive
+    RobotDB_A3 : PD_TEL3;          // PROFIdrive telegram 3 - Axis 3 drive
+    RobotDB_A4 : PD_TEL3;          // PROFIdrive telegram 3 - Axis 4 drive
+}
+
+// =========================================================================
+// END OF FILE
+// =========================================================================

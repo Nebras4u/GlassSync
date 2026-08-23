@@ -6,24 +6,62 @@
 
 GlassSync is a hardware-in-the-loop (HIL) digital twin for a 6-robot glass factory, connecting Siemens S7-1500 PLC, CoppeliaSim simulation, ROS2 + MoveIt2 for motion planning, and Python middleware for OPC UA, ZMQ, and MQTT bridges.
 
-Current Focus: Asset Administration Shell (AAS) + SCL Code for ABB IRB 4600 robot.
+Current Focus: Phase 2 completed - Python IK solver with CoppeliaSim integration (ABB-IRB-140).
 
 ## 🎬 Video Documentation
 
 | # | Phase | Topic | Date | Video | Status |
 |---|-------|-------|------|-------|--------|
 | 1 | Phase 1 | AAS + SCL Integration | 2026-08-21 | [▶️ Watch](https://youtu.be/6XjenCZ8NH8) | ✅ Completed |
-| 2 | Phase 2 | OPC UA + Python Driver | TBD | [▶️ Watch]() | ⏳ Planned |
-| 3 | Phase 3 | MQTT + Messaging Layer | TBD | [▶️ Watch]() | ⏳ Planned |
-| 4 | Phase 4 | TimescaleDB + Storage Layer | TBD | [▶️ Watch]() | ⏳ Planned |
-| 5 | Phase 5 | ROS2 + CoppeliaSim Integration | TBD | [▶️ Watch]() | ⏳ Planned |
-| 6 | Phase 6 | Full Stack Integration + Analytics | TBD | [▶️ Watch]() | ⏳ Planned |
+| 2 | Phase 2 | CoppeliaSim + Python IK Integration | 2026-08-23 | [▶️ Watch](https://youtu.be/5Lwg1ikyXEQ) | ✅ Completed |
+| 3 | Phase 3 | OPC UA Separation + Main Orchestrator | TBD | [▶️ Watch]() | ⏳ Planned |
+| 4 | Phase 4 | MQTT + Messaging Layer | TBD | [▶️ Watch]() | ⏳ Planned |
+| 5 | Phase 5 | TimescaleDB + Storage Layer | TBD | [▶️ Watch]() | ⏳ Planned |
+| 6 | Phase 6 | ROS2 + CoppeliaSim Integration | TBD | [▶️ Watch]() | ⏳ Planned |
+| 7 | Phase 7 | Full Stack Integration + Analytics | TBD | [▶️ Watch]() | ⏳ Planned |
 
 ## 🏗️ System Architecture
 
 ![GlassSync System Architecture](docs/images/System_Architecture.png)
 
 *Figure 1: GlassSync System Architecture — Siemens PLC ↔ Python Middleware ↔ CoppeliaSim ↔ ROS2/MoveIt2*
+
+**Updated Architecture (After Phase 2):**
+┌─────────────────────────────────────────────────────────────┐
+│ Siemens PLC (S7-1500) │
+│ • SCL Control Logic │
+│ • OPC UA Server │
+└────────────────────┬────────────────────────────────────────┘
+│ OPC UA
+▼
+┌─────────────────────────────────────────────────────────────┐
+│ Python Middleware Layer │
+│ ┌──────────────────────────────────────────────────────┐ │
+│ │ PLC-Driver.py (OPC UA Client - Phase 3) │ │
+│ └──────────────────┬───────────────────────────────────┘ │
+│ │ │
+│ ┌──────────────────▼───────────────────────────────────┐ │
+│ │ Main.py (Orchestrator - Phase 3) │ │
+│ └──────┬──────────────────────────────┬────────────────┘ │
+│ │ │ │
+│ ▼ ▼ │
+│ ┌─────────────────┐ ┌─────────────────┐ │
+│ │ IK Solver (ikpy)│ │ AAS Server │ │
+│ └────────┬────────┘ └─────────────────┘ │
+│ │ │
+│ ▼ │
+│ ┌─────────────────┐ ┌─────────────────┐ │
+│ │ CoppeliaSim │ │ MQTT Publisher │ │
+│ │ Bridge │ └────────┬────────┘ │
+│ └─────────────────┘ │ │
+└───────────────────────────────────────────┼──────────────────┘
+│
+▼
+┌─────────────────┐
+│ TimescaleDB │
+│ (InfluxDB) │
+└─────────────────┘
+
 
 ## 🔧 Tech Stack
 
@@ -32,6 +70,7 @@ Current Focus: Asset Administration Shell (AAS) + SCL Code for ABB IRB 4600 robo
 | PLC | Siemens S7-1500T + TIA Portal V17 | Real-time control |
 | Communication | OPC UA, ZMQ, PROFINET, MQTT | Data exchange |
 | Simulation | CoppeliaSim 4.6+ | Robot environment |
+| IK Solver | Python (ikpy) | Digital twin kinematics |
 | Robotics | ROS2 Humble + MoveIt2 | Motion planning |
 | Middleware | Python 3.12+ (Asyncio) | Bridge services |
 | AAS | IDTA (Asset Administration Shell) | Digital twin |
@@ -41,24 +80,37 @@ Current Focus: Asset Administration Shell (AAS) + SCL Code for ABB IRB 4600 robo
 | Orchestration | Docker, Docker Compose | Infrastructure |
 
 ## 📁 Project Structure
-
 GlassSync/
 ├── README.md
 ├── .gitignore
 │
 ├── aas/
-│   └── GlassSync.json
+│ └── GlassSync.json
 │
 ├── plc/
-│   ├── scl/
-│   │   └── GlassSync.scl
-│   └── db/
-│       └── GlassSync.db
+│ ├── scl/
+│ │ └── GlassSync.scl
+│ └── db/
+│ └── GlassSync.db
+│
+├── python/
+│ ├── src/
+│ │ ├── GlassSync.py # Phase 2
+│ │ ├── plc_driver.py # Phase 3 (planned)
+│ │ ├── main.py # Phase 3 (planned)
+│ │ ├── aas_server.py # Phase 3 (planned)
+│ │ ├── mqtt_publisher.py # Phase 4 (planned)
+│ │ └── database.py # Phase 5 (planned)
+│ └── config/
+│ └── robot_config.yaml # Phase 2
 │
 └── docs/
-    ├── Engineering_Logbook.md
-    └── images/
-        └── System_Architecture.png
+├── Engineering_Logbook.md
+└── images/
+├── System_Architecture.png
+└── Phase-1—AAS+SCL-Integration.png.jpg
+└── Phase-2—Python-CoppeliaSim-Integration.jpg
+
 
 ## ✅ Phase 1 — AAS + SCL Integration
 
@@ -91,71 +143,112 @@ Outputs (Feedback from PLC):
 - Axis_Limits (Min/Max per axis)
 - Status: Motion_Active, Emergency_Stop_Active, Error_Code
 
-### New Files Created
+## ✅ Phase 2 — CoppeliaSim + Python IK Integration
 
-aas/GlassSync.json
-plc/scl/GlassSync.scl
-plc/db/GlassSync.db
+Date: 2026-08-23
+Video: Upcoming
+Tag: phase-2-coppeliasim-ik
 
-### Technical Challenges & Notes
+### What Was Done?
 
-1. **WCS (World Coordinate System) in TIA Portal**:
-   - Challenge: Converting coordinates from WCS to Joint Coordinates inside TIA Portal
-   - Solution: Using Transformation Matrix in SCL to convert TCP positions to axis angles
-   - Note: `Kinematics_1` was used to handle kinematic transformations
+| # | Task | Status | Files |
+|---|------|--------|-------|
+| 1 | ABB-IRB-140 CoppeliaSim integration | ✅ Done | python/src/coppelia_sim_bridge.py |
+| 2 | Python IK solver implementation | ✅ Done | python/src/ik_solver.py |
+| 3 | DH parameter matching (PLC ↔ Python ↔ CoppeliaSim) | ✅ Done | python/src/dh_parameters.py |
+| 4 | Trajectory redesign for new workspace | ✅ Done | python/src/trajectory_planner.py |
+| 5 | IK validation tests | ✅ Done | python/src/test_ik_validation.py |
+| 6 | Robot configuration file | ✅ Done | python/config/robot_config.yaml |
 
-2. **PD_TEL3 Data Type** (RobotDB_A1..A4):
-   - Challenge: This data is complex and specific to PROFIdrive Telegram 3
-   - Decision: Left outside AAS for now, a dedicated Submodel will be added in future phases
-   - Note: Requires deep understanding of PROFIdrive protocol for proper integration
+### Key Technical Decisions
 
-3. **Array Handling in SCL**:
-   - Challenge: Working with Arrays in SCL, especially Array[1..4] of LReal for positions
-   - Solution: Using `#Temp_Transition_Blend` and `#Temp_Transition_Stop` as intermediate variables
-   - Note: Positions defined as Array[1..4] to represent [X, Y, Z, A]
+**1. Python IK Over CoppeliaSim SimIK**
+- **Decision**: Use Python (ikpy) as primary IK solver instead of CoppeliaSim's SimIK
+- **Rationale**:
+  - Not tied to CoppeliaSim's proprietary API
+  - Easier to switch between simulation environments (Gazebo, Webots, etc.)
+  - Better integration with ROS2 (same reasoning applies)
+  - Full control over kinematic algorithms and optimization parameters
+  - Easier debugging and testing
+  - Consistent with future ROS2 integration strategy
 
-4. **OPC UA Mapping**:
-   - Challenge: Mapping SCL variables to OPC UA Node IDs
-   - Solution: Creating a separate Submodel (OPCUA_Mapping) to document each Node ID
-   - Note: Format used: `ns=3;s="ABB-IRB-4600-DB01"."TagName"`
+**2. DH Parameter Matching**
+- Verified consistency across all three systems:
+  - Siemens PLC: Transformation matrices in SCL
+  - Python (ikpy): DH parameters in ikpy
+  - CoppeliaSim: URDF model parameters
+- Validated with multiple random WCS points
+- Achieved identical joint angle outputs across all systems
 
-5. **Sequential Motion Control**:
-   - Challenge: Implementing sequential motions with transition control between points
-   - Solution: Using `BufferMode := 2` for Transition Blending and `BufferMode := 1` for stop
-   - Note: Sequence used: `MC_PickUp1` -> `MC_PickUp2` -> `MC_PickUp3` -> stacking points
+**3. Robot Selection: ABB-IRB-140**
+- Switched from ABB-IRB-4600 to ABB-IRB-140 due to:
+  - Clear and well-documented URDF parameters
+  - Correct DH parameter matching verified
+  - Better suited for the workspace requirements
+- **Critical Lesson**: Always validate URDF parameters before integration - significant time was lost debugging ABB-IRB-4600 inconsistencies
 
-6. **Access Control Implementation**:
-   - Challenge: Implementing different user permissions (ReadOnly, Operator, Maintenance)
-   - Solution: Using `AllowedWriteRole` with values (0, 1, 2) in AAS
-   - Note: Linked with `AccessControl` in SCL
+**4. New Trajectory Waypoints**
 
-7. **Initial Trajectory Planning for Realistic Workspace Motion**:
-   - Challenge: Designing a basic trajectory that moves the robot within a workspace that closely resembles real-world physical constraints
-   - Solution: Defined a set of waypoints (PickUp1, PickUp2, PickUp3, HomePos, UpTheLinePos) that represent safe and reachable positions within the robot's working envelope. Used MC_MoveDirectAbsolute with blending to create smooth continuous motion
-   - Note: Trajectory was validated using CoppeliaSim simulation to ensure no collisions or joint limit violations. The approach points were selected to mimic real pickup and stacking operations in a glass factory environment
-   - Future Improvement: Will integrate MoveIt2 in Phase 5 for advanced trajectory optimization and collision-free path planning
+| Waypoint | Position (X, Y, Z, A) | Description |
+|----------|----------------------|-------------|
+| HomePos | [0.3, 0.0, 0.5, 0.0] | Home position |
+| PickUp1 | [0.4, -0.3, 0.3, 0.0] | Pickup point 1 |
+| PickUp2 | [0.4, 0.0, 0.3, 0.0] | Pickup point 2 |
+| PickUp3 | [0.4, 0.3, 0.3, 0.0] | Pickup point 3 |
+| StackingLeft | [0.2, -0.4, 0.2, 0.0] | Left stacking position |
+| StackingRight | [0.2, 0.4, 0.2, 0.0] | Right stacking position |
+| UpTheLinePos | [0.5, 0.0, 0.4, 0.0] | Up-the-line position |
+
+### Technical Challenges & Solutions
+
+| Challenge | Impact | Solution |
+|-----------|--------|----------|
+| **ABB-IRB-4600 URDF Inconsistency** | Wasted significant time | Switched to ABB-IRB-140 with verified URDF |
+| **DH Parameter Mismatch** | Inconsistent joint angles | Created single source of truth in `dh_parameters.py` |
+| **Workspace Adaptation** | Waypoints out of reach | Redesigned trajectory for IRB-140 workspace |
+| **Coordinate System Differences** | Coordinate confusion | Established clear WCS → Joint → Simulation pipeline |
 
 ### Next Steps
 
-- Phase 2: OPC UA + Python Driver
-- Phase 3: MQTT + Messaging Layer
-- Phase 4: TimescaleDB + Storage Layer
-- Phase 5: ROS2 + CoppeliaSim Integration
-- Phase 6: Full Stack Integration + Analytics
+**Phase 3: OPC-UA Separation & Main Orchestrator**
 
-## 🚀 Getting Started (Phase 1)
+Planned Tasks:
+- Separate PLC communication into dedicated `PLC-Driver.py`
+- Implement `Main.py` as central orchestrator
+- Connect all modules: PLC-Driver → Main → IK/Simulation/MQTT/AAS
+- Ensure modular and decoupled architecture
+
+### Future Phases
+
+- Phase 4: MQTT + Messaging Layer
+- Phase 5: TimescaleDB + Storage Layer
+- Phase 6: ROS2 + CoppeliaSim Integration
+- Phase 7: Full Stack Integration + Analytics
+
+## 🚀 Getting Started (Phase 2)
 
 ### Prerequisites
 - TIA Portal V17 (for PLC development)
 - PLCSim Advanced V6 (for simulation)
-- Git (for version control)
+- Python 3.12+ with required packages:
+  ```bash
+  pip install numpy ikpy zerorpc pymodbus
+
+* CoppeliaSim 4.6+ (with ABB-IRB-140 model)
+* Git (for version control)
+
+Running the Python IK Solver
+# Test
+python python/src/GlassSync.py
 
 ## 📚 Documentation
 
-- Engineering Logbook: docs/Engineering_Logbook.md
+- 📘 Engineering Logbook: [docs/Engineering_Logbook.md](docs/Engineering_Logbook.md)
+- 🏷️ Phase 1 Details: [Phase 1 Release Notes](https://github.com/Nebras4u/GlassSync/releases/tag/phase-1-aas-scl)
+- 🏷️ Phase 2 Details: [Phase 2 Release Notes](https://github.com/Nebras4u/GlassSync/releases/tag/Phase-2-CoppeliaSim-Python-IK-Integration)
 
-## 📬 Contact
 
+📬 Contact
 GitHub: https://github.com/Nebras4u
 YouTube: https://www.youtube.com/playlist?list=PLMadf0IBbtAE
 
