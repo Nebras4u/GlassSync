@@ -1,0 +1,406 @@
+#Temp_Transition_Blend[1] := 50.0;
+#Temp_Transition_Stop[1] := 0.0;
+#Robot_Step := 10;
+
+// ==========================================================================
+// SECTION 1: SYSTEM VISIBILITY & FAULT MONITORING
+// ==========================================================================
+
+"ABB-IRB-4600-DB01".Group_Fault := "Kinematics_1".StatusWord.%X1;
+"ABB-IRB-4600-DB01".Axis1_Fault := "PositioningAxis_1".StatusWord.%X1;
+"ABB-IRB-4600-DB01".Axis2_Fault := "PositioningAxis_2".StatusWord.%X1;
+"ABB-IRB-4600-DB01".Axis3_Fault := "PositioningAxis_3".StatusWord.%X1;
+"ABB-IRB-4600-DB01".Axis4_Fault := "PositioningAxis_4".StatusWord.%X1;
+
+// ==========================================================================
+// SECTION 2: POWER MANAGEMENT & DRIVE INTERLOCKS
+// ==========================================================================
+
+"MC_PWR_Ax1_DB"(Axis := "PositioningAxis_1",
+                Enable := "ABB-IRB-4600-DB01".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+
+"MC_PWR_Ax2_DB"(Axis := "PositioningAxis_2",
+                Enable := "ABB-IRB-4600-DB01".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+
+"MC_PWR_Ax3_DB"(Axis := "PositioningAxis_3",
+                Enable := "ABB-IRB-4600-DB01".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+
+"MC_PWR_Ax4_DB"(Axis := "PositioningAxis_4",
+                Enable := "ABB-IRB-4600-DB01".EnableAll,
+                StartMode := 1,
+                StopMode := 0);
+
+#System_Hardware_Ready := "MC_PWR_Ax1_DB".Status
+AND "MC_PWR_Ax2_DB".Status
+AND "MC_PWR_Ax3_DB".Status
+AND "MC_PWR_Ax4_DB".Status;
+
+// ==========================================================================
+// SECTION 3: SEQUENTIAL TRAFFIC CONTROL
+// ==========================================================================
+
+IF NOT #System_Hardware_Ready THEN
+    "ABB-IRB-4600-DB01".EnableKinematics := FALSE;
+    "ABB-IRB-4600-DB01".Go2Pos4Maint := FALSE;
+    #Trigger_Motion := FALSE;
+ELSE
+    IF "ABB-IRB-4600-DB01".EnableKinematics AND NOT #Old_Kinematics_State THEN
+        #Trigger_Motion := TRUE;
+    ELSE
+        #Trigger_Motion := FALSE;
+    END_IF;
+END_IF;
+
+#Old_Kinematics_State := "ABB-IRB-4600-DB01".EnableKinematics;
+
+// ==========================================================================
+// SECTION 4: MOTION COMMANDS EXECUTION
+// ==========================================================================
+
+// --------------------------------------------------------------------------
+// 4.1 AUTOMATIC ROUTINE - LEFT STACKING
+// --------------------------------------------------------------------------
+
+IF "ABB-IRB-4600-DB01".Auto_Mode AND "ABB-IRB-4600-DB01".Stacking2Left THEN
+    // 4.1.1 Approach & Pickup Sequence
+    "MC_PickUp1"(AxesGroup := "Kinematics_1",
+                 Execute := #Trigger_Motion,
+                 Position := "ABB-IRB-4600-DB01".PickUp1,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    "MC_PickUp2"(AxesGroup := "Kinematics_1",
+                 Execute := "MC_PickUp1".Active,
+                 Position := "ABB-IRB-4600-DB01".PickUp2,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    "MC_PickUp3"(AxesGroup := "Kinematics_1",
+                 Execute := "MC_PickUp2".Active,
+                 Position := "ABB-IRB-4600-DB01".PickUp3,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    // 4.1.2 Left Stacking Sequence
+    "MC_Stkng_L1"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_PickUp3".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points1,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_L2"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_L1".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points2,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_L3"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_L2".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points3,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_L4"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_L3".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points4,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_L5"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_L4".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points5,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_L6"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_L5".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingLeft_Points6,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    // 4.1.3 Return to Home Position
+    "MC_UpTheLinePos_Return"(AxesGroup := "Kinematics_1",
+                             Execute := "MC_Stkng_L6".Active,
+                             Position := "ABB-IRB-4600-DB01".UpTheLinePos,
+                             Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                             Acceleration := -1,
+                             Deceleration := -1,
+                             Jerk := -1,
+                             DirectionA := 3,
+                             CoordSystem := 0,
+                             BufferMode := 1,
+                             TransitionParameter := #Temp_Transition_Stop,
+                             DynamicAdaption := -1);
+    
+    // --------------------------------------------------------------------------
+    // 4.2 AUTOMATIC ROUTINE - RIGHT STACKING
+    // --------------------------------------------------------------------------
+    
+ELSIF "ABB-IRB-4600-DB01".Auto_Mode AND "ABB-IRB-4600-DB01".Stacking2Right THEN
+    
+    // 4.2.1 Approach & Pickup Sequence
+    "MC_PickUp1"(AxesGroup := "Kinematics_1",
+                 Execute := #Trigger_Motion,
+                 Position := "ABB-IRB-4600-DB01".PickUp1,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    "MC_PickUp2"(AxesGroup := "Kinematics_1",
+                 Execute := "MC_PickUp1".Active,
+                 Position := "ABB-IRB-4600-DB01".PickUp2,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    "MC_PickUp3"(AxesGroup := "Kinematics_1",
+                 Execute := "MC_PickUp2".Active,
+                 Position := "ABB-IRB-4600-DB01".PickUp3,
+                 Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                 Acceleration := -1,
+                 Deceleration := -1,
+                 Jerk := -1,
+                 DirectionA := 3,
+                 CoordSystem := 0,
+                 BufferMode := 2,
+                 TransitionParameter := #Temp_Transition_Blend,
+                 DynamicAdaption := -1);
+    
+    // 4.2.2 Right Stacking Sequence
+    "MC_Stkng_R1"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_PickUp3".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points1,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_R2"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_R1".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points2,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_R3"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_R2".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points3,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_R4"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_R3".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points4,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_R5"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_R4".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points5,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    "MC_Stkng_R6"(AxesGroup := "Kinematics_1",
+                  Execute := "MC_Stkng_R5".Active,
+                  Position := "ABB-IRB-4600-DB01".StackingRight_Points6,
+                  Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                  Acceleration := -1,
+                  Deceleration := -1,
+                  Jerk := -1,
+                  DirectionA := 3,
+                  CoordSystem := 0,
+                  BufferMode := 2,
+                  TransitionParameter := #Temp_Transition_Blend,
+                  DynamicAdaption := -1);
+    
+    // 4.2.3 Return to Home Position
+    "MC_UpTheLinePos_Return"(AxesGroup := "Kinematics_1",
+                             Execute := "MC_Stkng_R6".Active,
+                             Position := "ABB-IRB-4600-DB01".UpTheLinePos,
+                             Velocity := "ABB-IRB-4600-DB01".Vlcty,
+                             Acceleration := -1,
+                             Deceleration := -1,
+                             Jerk := -1,
+                             DirectionA := 3,
+                             CoordSystem := 0,
+                             BufferMode := 1,
+                             TransitionParameter := #Temp_Transition_Stop,
+                             DynamicAdaption := -1);
+    
+END_IF;
+
+// --------------------------------------------------------------------------
+// 4.3 MANUAL POINT-TO-POINT ROUTINE
+// --------------------------------------------------------------------------
+
+"MC_Go2HomePos"(AxesGroup := "Kinematics_1",
+                Execute := (#Trigger_Motion AND NOT "ABB-IRB-4600-DB01".Auto_Mode AND "ABB-IRB-4600-DB01".Go2HomePos),
+                Position := "ABB-IRB-4600-DB01".HomePos,
+                Velocity := 50.0,
+                Acceleration := -1,
+                Deceleration := -1,
+                Jerk := -1,
+                DirectionA := 3,
+                CoordSystem := 0,
+                BufferMode := 1,
+                TransitionParameter := #Temp_Transition_Stop,
+                DynamicAdaption := -1);
+
+"MC_Pos4Maint"(AxesGroup := "Kinematics_1",
+               Execute := (#Trigger_Motion AND NOT "ABB-IRB-4600-DB01".Auto_Mode AND "ABB-IRB-4600-DB01".Go2Pos4Maint),
+               Position := "ABB-IRB-4600-DB01".Pos4Maint,
+               Velocity := 50.0,
+               Acceleration := -1,
+               Deceleration := -1,
+               Jerk := -1,
+               DirectionA := 3,
+               CoordSystem := 0,
+               BufferMode := 1,
+               TransitionParameter := #Temp_Transition_Stop,
+               DynamicAdaption := -1);
+
+// ==========================================================================
+// SECTION 5: TELEMETRY & DATA FEEDBACK
+// ==========================================================================
+
+"ABB-IRB-4600-DB01".ActPos[1] := "Kinematics_1".Tcp.x;
+"ABB-IRB-4600-DB01".ActPos[2] := "Kinematics_1".Tcp.y;
+"ABB-IRB-4600-DB01".ActPos[3] := "Kinematics_1".Tcp.z;
+"ABB-IRB-4600-DB01".ActPos[4] := "Kinematics_1".Tcp.a;
+
+// --------------------------------------------------------------------------
+// 5.1 Hardware Limit Status Monitoring
+// --------------------------------------------------------------------------
+
+IF "PositioningAxis_1".StatusWord.%X17 THEN
+    // Negative hardware limit (Minimum) is reached
+    #non := #non;
+END_IF;
+
+IF "PositioningAxis_1".StatusWord.%X18 THEN
+    // Positive hardware limit (Maximum) is reached
+    #non := #non;
+END_IF;
+
+IF "PositioningAxis_1".StatusWord.%X15 THEN
+    // Software limit minimum exceeded
+    #non := #non;
+END_IF;
+
+IF "PositioningAxis_1".StatusWord.%X16 THEN
+    // Software limit maximum reached
+    #non := #non;
+END_IF;

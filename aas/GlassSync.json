@@ -1,0 +1,2096 @@
+﻿{
+  "assetAdministrationShells": [
+    {
+      "modelType": "AssetAdministrationShell",
+      "id": "https://digitaltwin.local/aas/ABB_IRB_4600_4_255",
+      "idShort": "AAS_ABB_IRB_4600_4_255",
+      "assetInformation": {
+        "assetKind": "Instance",
+        "globalAssetId": "https://digitaltwin.local/asset/ABB_IRB_4600_4_255"
+      },
+      "submodels": [
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://digitaltwin.local/sm/ABB_IRB_4600_4_255/KinematicsControl"
+            }
+          ]
+        },
+        {
+          "type": "ModelReference",
+          "keys": [
+            {
+              "type": "Submodel",
+              "value": "https://digitaltwin.local/sm/ABB_IRB_4600_4_255/OPCUA_Mapping"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "submodels": [
+    {
+      "modelType": "Submodel",
+      "id": "https://digitaltwin.local/sm/ABB_IRB_4600_4_255/KinematicsControl",
+      "idShort": "KinematicsControl",
+      "kind": "Instance",
+      "description": [
+        {
+          "language": "en",
+          "text": "Submodel for kinematics control of ABB IRB 4600-4-255 robot compatible with SCL code"
+        }
+      ],
+      "administration": {
+        "version": "3.0",
+        "revision": "1"
+      },
+      "submodelElements": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Inputs",
+          "description": [
+            {
+              "language": "en",
+              "text": "Inputs: Commands and motion setpoints, written by HMI/SCADA/digital twin, read by the SCL logic"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "EnableAll",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Power up all axis drives (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".EnableAll"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/EnableAll"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "EnableKinematics",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Enable kinematics block (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".EnableKinematics"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/EnableKinematics"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Auto_Mode",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Motion mode selection: TRUE = Auto routine, FALSE = Manual point-to-point (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Auto_Mode"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/AutoMode"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Vlcty",
+              "valueType": "xs:double",
+              "value": 100.0,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Motion velocity used for MC_MoveDirectAbsolute calls (LReal) - mm/s"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Vlcty"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Velocity"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "HomePos",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 800.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 600.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Manual-mode home position [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".HomePos"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/HomePos"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "UpTheLinePos",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 1200.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 300.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 400.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Intermediate return/park position used after every stacking cycle [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".UpTheLinePos"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/UpTheLinePos"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "PickUp1",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Approach point 1 of the pickup sequence [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".PickUp1"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/PickUp1"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "PickUp2",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Approach point 2 of the pickup sequence [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".PickUp2"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/PickUp2"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "PickUp3",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Approach point 3 of the pickup sequence [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".PickUp3"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/PickUp3"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "Pos4Maint",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Manual-mode maintenance position [X,Y,Z,A] (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Pos4Maint"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Pos4Maint"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Go2Pos4Maint",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Manual-mode trigger: move to maintenance position (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Go2Pos4Maint"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Go2Pos4Maint"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Go2HomePos",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Manual-mode trigger: move to home position (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Go2HomePos"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Go2HomePos"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Stacking2Left",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Auto-mode trigger: run the left stacking routine (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Stacking2Left"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Stacking2Left"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Stacking2Right",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Auto-mode trigger: run the right stacking routine (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Stacking2Right"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 1
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/Stacking2Right"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "idShort": "StackingLeft_Points",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Sequence of 6 points for the left stacking station (each Array[1..4] of LReal, stored as 6 separate DB tags StackingLeft_Points1..StackingLeft_Points6)"
+                }
+              ],
+              "value": [
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_1",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points1"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_2",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points2"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point2"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_3",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points3"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point3"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_4",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points4"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point4"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_5",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points5"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point5"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_6",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingLeft_Points6"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeft/Point6"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingLeftPoints"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "idShort": "StackingRight_Points",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Sequence of 6 points for the right stacking station (each Array[1..4] of LReal, stored as 6 separate DB tags StackingRight_Points1..StackingRight_Points6)"
+                }
+              ],
+              "value": [
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_1",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points1"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point1"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_2",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points2"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point2"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_3",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points3"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point3"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_4",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points4"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point4"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_5",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points5"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point5"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Point_6",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 0.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "SCL: \"ABB-IRB-4600-DB01\".StackingRight_Points6"
+                    }
+                  ],
+                  "semanticId": {
+                    "keys": [
+                      {
+                        "type": "GlobalReference",
+                        "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRight/Point6"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs/StackingRightPoints"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "AccessControl",
+              "valueType": "xs:int",
+              "value": 0,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "User access level: 0 = External (read-only), 1 = Operator, 2 = Maintenance Manager (Int)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".AccessControl"
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/AccessControl"
+                  }
+                ]
+              }
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Inputs"
+              }
+            ]
+          }
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "Outputs",
+          "description": [
+            {
+              "language": "en",
+              "text": "Outputs: Feedback and status values written back by the SCL logic"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "ActPos",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Actual TCP position [X,Y,Z,A], fed from \"Kinematics_1\".Tcp.x/y/z/a (Array[1..4] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".ActPos"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/ActPos"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Group_Fault",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Kinematics group fault, from \"Kinematics_1\".StatusWord.%X1 (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Group_Fault"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/GroupFault"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis1_Fault",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Axis 1 fault, from \"PositioningAxis_1\".StatusWord.%X1 (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis1_Fault"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/Axis1Fault"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis2_Fault",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Axis 2 fault, from \"PositioningAxis_2\".StatusWord.%X1 (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis2_Fault"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/Axis2Fault"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis3_Fault",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Axis 3 fault, from \"PositioningAxis_3\".StatusWord.%X1 (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis3_Fault"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/Axis3Fault"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis4_Fault",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Axis 4 fault, from \"PositioningAxis_4\".StatusWord.%X1 (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis4_Fault"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/Axis4Fault"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "Dynamic_Speed",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Dynamic speed per axis (Array[1..4] of LReal) - mm/s"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Dynamic_Speed"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/DynamicSpeed"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "Dynamic_Torque",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Dynamic torque per axis (Array[1..4] of LReal) - N.m"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Dynamic_Torque"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/DynamicTorque"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementCollection",
+              "idShort": "Axis_Limits",
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Axis limits for each joint [Min, Max] (Array[1..4, 1..2] of LReal)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis_Limits"
+                }
+              ],
+              "value": [
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Axis_1",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": -185.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 185.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "Axis 1 limits [Min, Max] (deg)"
+                    }
+                  ]
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Axis_2",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": -10.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 150.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "Axis 2 limits [Min, Max] (deg)"
+                    }
+                  ]
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Axis_3",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": -150.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 150.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "Axis 3 limits [Min, Max] (deg)"
+                    }
+                  ]
+                },
+                {
+                  "modelType": "SubmodelElementList",
+                  "idShort": "Axis_4",
+                  "typeValueListElement": "Property",
+                  "valueTypeListElement": "xs:double",
+                  "value": [
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": -150.0
+                    },
+                    {
+                      "modelType": "Property",
+                      "valueType": "xs:double",
+                      "value": 150.0
+                    }
+                  ],
+                  "description": [
+                    {
+                      "language": "en",
+                      "text": "Axis 4 limits [Min, Max] (deg)"
+                    }
+                  ]
+                }
+              ],
+              "qualifiers": [
+                {
+                  "type": "AllowedWriteRole",
+                  "valueType": "xs:int",
+                  "value": 2
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/AxisLimits"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "SubmodelElementList",
+              "idShort": "Axis_Power",
+              "typeValueListElement": "Property",
+              "valueTypeListElement": "xs:double",
+              "value": [
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                },
+                {
+                  "modelType": "Property",
+                  "valueType": "xs:double",
+                  "value": 0.0
+                }
+              ],
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Power consumption per axis (Array[1..4] of LReal) - Watts"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Axis_Power"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/AxisPower"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Motion_Active",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Motion active (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Motion_Active"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/MotionActive"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Error_Code",
+              "valueType": "xs:int",
+              "value": 0,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Current error code (0 = no error) (Int)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Error_Code"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/ErrorCode"
+                  }
+                ]
+              }
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Emergency_Stop_Active",
+              "valueType": "xs:boolean",
+              "value": false,
+              "description": [
+                {
+                  "language": "en",
+                  "text": "Emergency stop active (BOOL)"
+                },
+                {
+                  "language": "en",
+                  "text": "SCL: \"ABB-IRB-4600-DB01\".Emergency_Stop_Active"
+                }
+              ],
+              "semanticId": {
+                "keys": [
+                  {
+                    "type": "GlobalReference",
+                    "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs/EmergencyStopActive"
+                  }
+                ]
+              }
+            }
+          ],
+          "semanticId": {
+            "keys": [
+              {
+                "type": "GlobalReference",
+                "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Outputs"
+              }
+            ]
+          }
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "UnmappedDriveTelegrams",
+          "description": [
+            {
+              "language": "en",
+              "text": "RobotDB_A1..RobotDB_A4 are of type PD_TEL3 (PROFIdrive telegram 3 UDT) in the Static DB. They are complex structured drive-telegram tags, not simple values, and are intentionally left out of this submodel. Model them in a dedicated PROFIdrive submodel if the digital twin needs direct access to raw drive telegram data."
+            }
+          ],
+          "value": []
+        }
+      ],
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Kinematics"
+          }
+        ]
+      }
+    },
+    {
+      "modelType": "Submodel",
+      "id": "https://digitaltwin.local/sm/ABB_IRB_4600_4_255/OPCUA_Mapping",
+      "idShort": "OPCUA_Mapping",
+      "kind": "Instance",
+      "description": [
+        {
+          "language": "en",
+          "text": "Submodel for mapping all elements to actual OPC UA node addresses"
+        }
+      ],
+      "administration": {
+        "version": "3.0",
+        "revision": "1"
+      },
+      "semanticId": {
+        "keys": [
+          {
+            "type": "GlobalReference",
+            "value": "https://opcfoundation.org/UA/Robotics/IRB4600/Mapping"
+          }
+        ]
+      },
+      "submodelElements": [
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "ServerConfig",
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "ServerEndpoint",
+              "valueType": "xs:string",
+              "value": "opc.tcp://localhost:4840"
+            },
+            {
+              "modelType": "Property",
+              "idShort": "NamespaceIndex",
+              "valueType": "xs:int",
+              "value": 3
+            },
+            {
+              "modelType": "Property",
+              "idShort": "DataBlockName",
+              "valueType": "xs:string",
+              "value": "ABB-IRB-4600-DB01"
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "InputNodeIDs",
+          "description": [
+            {
+              "language": "en",
+              "text": "Actual OPC UA Node IDs for each input variable"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "EnableAll",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"EnableAll\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "EnableKinematics",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"EnableKinematics\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Auto_Mode",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Auto_Mode\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Vlcty",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Vlcty\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "HomePos",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"HomePos\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "UpTheLinePos",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"UpTheLinePos\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "PickUp1",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"PickUp1\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "PickUp2",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"PickUp2\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "PickUp3",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"PickUp3\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Pos4Maint",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Pos4Maint\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Go2Pos4Maint",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Go2Pos4Maint\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Go2HomePos",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Go2HomePos\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Stacking2Left",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Stacking2Left\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Stacking2Right",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Stacking2Right\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "AccessControl",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"AccessControl\""
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "OutputNodeIDs",
+          "description": [
+            {
+              "language": "en",
+              "text": "Actual OPC UA Node IDs for each output variable"
+            }
+          ],
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "ActPos",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"ActPos\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Group_Fault",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Group_Fault\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis1_Fault",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis1_Fault\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis2_Fault",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis2_Fault\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis3_Fault",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis3_Fault\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis4_Fault",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis4_Fault\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Dynamic_Speed",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Dynamic_Speed\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Dynamic_Torque",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Dynamic_Torque\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis_Limits",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis_Limits\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Axis_Power",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Axis_Power\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Motion_Active",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Motion_Active\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Error_Code",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Error_Code\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Emergency_Stop_Active",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"Emergency_Stop_Active\""
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "StackingLeftNodeIDs",
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Point_1",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points1\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_2",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points2\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_3",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points3\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_4",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points4\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_5",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points5\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_6",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingLeft_Points6\""
+            }
+          ]
+        },
+        {
+          "modelType": "SubmodelElementCollection",
+          "idShort": "StackingRightNodeIDs",
+          "value": [
+            {
+              "modelType": "Property",
+              "idShort": "Point_1",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points1\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_2",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points2\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_3",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points3\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_4",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points4\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_5",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points5\""
+            },
+            {
+              "modelType": "Property",
+              "idShort": "Point_6",
+              "valueType": "xs:string",
+              "value": "ns=3;s=\"ABB-IRB-4600-DB01\".\"StackingRight_Points6\""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

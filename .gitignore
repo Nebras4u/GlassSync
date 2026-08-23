@@ -1,0 +1,153 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pythonenv*
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+*.pyproj
+*.pyi
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Docker
+docker/*.log
+docker/.env
+docker/secrets/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# OPC UA / Certificates
+*.pem
+*.crt
+*.key
+*.p12
+pki/
+PKI/
+
+# PLC / TIA Portal
+*.ap12
+*.ap13
+*.ap14
+*.ap15
+*.ap16
+*.ap17
+*.zap
+*.zap15
+*.zap16
+*.zap17
+*.backup
+*.tmp
+*.temp
+Logs/
+Online/
+Offline/
+IM/
+AS/
+*.plf
+
+# AAS
+*.tmp
+*.bak
+*.swp
+
+# CoppeliaSim
+*.ttt.*
+*.sim.*
+*.cache
+*.log
+
+# ROS2
+ros2/log/
+ros2/build/
+ros2/install/
+ros2/.catkin_workspace
+
+# TimescaleDB / PostgreSQL
+data/
+pgdata/
+*.pid
+postmaster.pid
+
+# Grafana
+grafana/data/
+grafana/log/
+grafana/plugins/
+
+# MQTT
+mosquitto/data/
+mosquitto/log/
+
+# Environment
+.env
+.env.local
+.env.*.local
+*.env
+
+# Logs
+*.log
+logs/
+*.pid
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.cache
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Secret / Keys
+*.pem
+*.key
+*.crt
+*.csr
+secrets/
+keys/
+credentials.json
+service-account.json
+
+# Local config (keep example only)
+config.local.yaml
+config.local.yml
+*.local.yaml
+*.local.yml
