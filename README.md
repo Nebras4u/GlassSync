@@ -27,40 +27,8 @@ Current Focus: Phase 2 completed - Python IK solver with CoppeliaSim integration
 *Figure 1: GlassSync System Architecture — Siemens PLC ↔ Python Middleware ↔ CoppeliaSim ↔ ROS2/MoveIt2*
 
 **Updated Architecture (After Phase 2):**
-┌─────────────────────────────────────────────────────────────┐
-│ Siemens PLC (S7-1500)                                       │
-│ • SCL Control Logic                                         │
-│ • OPC UA Server                                             │
-└────────────────────┬────────────────────────────────────────┘
-                     │ OPC UA
-                     ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Python Middleware Layer                        │
-│ ┌──────────────────────────────────────────────────────┐    │
-│ │ PLC-Driver.py (OPC UA Client - Phase 3)              │    │
-│ └──────────────────┬───────────────────────────────────┘    │
-│                    │                                        │
-│ ┌──────────────────▼───────────────────────────────────┐    │
-│ │ Main.py (Orchestrator - Phase 3)                     │    │
-│ └──────┬────────────────────┬──────────────────────────┘    │
-│        │                    │                               │
-│        ▼                    ▼                               │
-│ ┌─────────────────┐ ┌─────────────────┐                     │
-│ │ IK Solver (ikpy)│ │ AAS Server      │                     │
-│ └────────┬────────┘ └─────────────────┘                     │
-│          │                                                  │
-│          ▼                                                  │
-│ ┌─────────────────┐ ┌─────────────────┐                     │
-│ │ CoppeliaSim     │ │ MQTT Publisher  │                     │
-│ │ Bridge          │ └────────┬────────┘                     │
-│ └─────────────────┘          │                              │
-└──────────────────────────────┼──────────────────────────────┘
-                               │
-                               ▼
-                     ┌─────────────────┐
-                     │ TimescaleDB     │
-                     │ (InfluxDB)      │
-                     └─────────────────┘
+<img width="642" height="802" alt="2026-08-24_092420" src="https://github.com/user-attachments/assets/fd922364-f702-4e7d-94c6-cc2f1b8de527" />
+
 
 
 ## 🔧 Tech Stack
@@ -80,36 +48,7 @@ Current Focus: Phase 2 completed - Python IK solver with CoppeliaSim integration
 | Orchestration | Docker, Docker Compose            | Infrastructure          |
 
 ## 📁 Project Structure
-GlassSync/
-├── README.md
-├── .gitignore
-│
-├── aas/
-│ └── GlassSync.json
-│
-├── plc/
-│ ├── scl/
-│ │ └── GlassSync.scl
-│ └── db/
-│ └── GlassSync.db
-│
-├── python/
-│ ├── src/
-│ │ ├── GlassSync.py # Phase 2
-│ │ ├── plc_driver.py # Phase 3 (planned)
-│ │ ├── main.py # Phase 3 (planned)
-│ │ ├── aas_server.py # Phase 3 (planned)
-│ │ ├── mqtt_publisher.py # Phase 4 (planned)
-│ │ └── database.py # Phase 5 (planned)
-│ └── config/
-│ └── robot_config.yaml # Phase 2
-│
-└── docs/
-├── Engineering_Logbook.md
-└── images/
-├── System_Architecture.png
-└── Phase-1—AAS+SCL-Integration.png.jpg
-└── Phase-2—Python-CoppeliaSim-Integration.jpg
+<img width="472" height="717" alt="2026-08-24_092445" src="https://github.com/user-attachments/assets/5d3ff14c-d40a-45fd-b36e-d9b24d46de50" />
 
 
 ## ✅ Phase 1 — AAS + SCL Integration
