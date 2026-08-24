@@ -189,6 +189,7 @@ python python/src/GlassSync.py
 
 📬 Contact
 GitHub: https://github.com/Nebras4u
+
 YouTube: https://www.youtube.com/playlist?list=PLMadf0IBbtAE
 
 Built for Industry 4.0 — GlassSync © 2026
