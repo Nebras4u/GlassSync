@@ -116,7 +116,7 @@ GlassSync/
 
 Date: 2026-08-21
 Video: https://youtu.be/6XjenCZ8NH8
-Tag: phase-1-aas-scl
+Tag:[phase-1-aas-scl](https://github.com/Nebras4u/GlassSync/releases/tag/phase-1-aas-scl)
 
 ### What Was Done?
 
@@ -146,9 +146,8 @@ Outputs (Feedback from PLC):
 ## ✅ Phase 2 — CoppeliaSim + Python IK Integration
 
 Date: 2026-08-23
-Video: Upcoming
-Tag: phase-2-coppeliasim-ik
-
+Video: [CoppeliaSim + Python IK Integration](https://youtu.be/5Lwg1ikyXEQ)
+Tag: [CoppeliaSim + Python IK Integration](https://github.com/Nebras4u/GlassSync/releases/tag/Phase-2-CoppeliaSim-Python-IK-Integration)
 ### What Was Done?
 
 | # | Task | Status | Files |
