@@ -10,15 +10,15 @@ Current Focus: Phase 2 completed - Python IK solver with CoppeliaSim integration
 
 ## 🎬 Video Documentation
 
-| # | Phase | Topic | Date | Video | Status |
-|---|-------|-------|------|-------|--------|
-| 1 | Phase 1 | AAS + SCL Integration | 2026-08-21 | [▶️ Watch](https://youtu.be/6XjenCZ8NH8) | ✅ Completed |
-| 2 | Phase 2 | CoppeliaSim + Python IK Integration | 2026-08-23 | [▶️ Watch](https://youtu.be/5Lwg1ikyXEQ) | ✅ Completed |
-| 3 | Phase 3 | OPC UA Separation + Main Orchestrator | TBD | [▶️ Watch]() | ⏳ Planned |
-| 4 | Phase 4 | MQTT + Messaging Layer | TBD | [▶️ Watch]() | ⏳ Planned |
-| 5 | Phase 5 | TimescaleDB + Storage Layer | TBD | [▶️ Watch]() | ⏳ Planned |
-| 6 | Phase 6 | ROS2 + CoppeliaSim Integration | TBD | [▶️ Watch]() | ⏳ Planned |
-| 7 | Phase 7 | Full Stack Integration + Analytics | TBD | [▶️ Watch]() | ⏳ Planned |
+| # | Phase   |                  Topic                |    Date    |               Video                      |    Status     |
+|---|---------|---------------------------------------|------------|------------------------------------------|---------------|
+| 1 | Phase 1 | AAS + SCL Integration                 | 2026-08-21 | [▶️ Watch](https://youtu.be/6XjenCZ8NH8) | ✅ Completed |
+| 2 | Phase 2 | CoppeliaSim + Python IK Integration   | 2026-08-23 | [▶️ Watch](https://youtu.be/5Lwg1ikyXEQ) | ✅ Completed |
+| 3 | Phase 3 | OPC UA Separation + Main Orchestrator | TBD        | [▶️ -----]()                             | ⏳ Planned    |
+| 4 | Phase 4 | MQTT + Messaging Layer                | TBD        | [▶️ -----]()                             | ⏳ Planned    |
+| 5 | Phase 5 | TimescaleDB + Storage Layer           | TBD        | [▶️ -----]()                             | ⏳ Planned    |
+| 6 | Phase 6 | ROS2 + CoppeliaSim Integration        | TBD        | [▶️ -----]()                             | ⏳ Planned    |
+| 7 | Phase 7 | Full Stack Integration + Analytics    | TBD        | [▶️ -----]()                             | ⏳ Planned    |
 
 ## 🏗️ System Architecture
 
@@ -28,56 +28,56 @@ Current Focus: Phase 2 completed - Python IK solver with CoppeliaSim integration
 
 **Updated Architecture (After Phase 2):**
 ┌─────────────────────────────────────────────────────────────┐
-│ Siemens PLC (S7-1500) │
-│ • SCL Control Logic │
-│ • OPC UA Server │
+│ Siemens PLC (S7-1500)                                       │
+│ • SCL Control Logic                                         │
+│ • OPC UA Server                                             │
 └────────────────────┬────────────────────────────────────────┘
-│ OPC UA
-▼
+                     │ OPC UA
+                     ▼
 ┌─────────────────────────────────────────────────────────────┐
-│ Python Middleware Layer │
-│ ┌──────────────────────────────────────────────────────┐ │
-│ │ PLC-Driver.py (OPC UA Client - Phase 3) │ │
-│ └──────────────────┬───────────────────────────────────┘ │
-│ │ │
-│ ┌──────────────────▼───────────────────────────────────┐ │
-│ │ Main.py (Orchestrator - Phase 3) │ │
-│ └──────┬──────────────────────────────┬────────────────┘ │
-│ │ │ │
-│ ▼ ▼ │
-│ ┌─────────────────┐ ┌─────────────────┐ │
-│ │ IK Solver (ikpy)│ │ AAS Server │ │
-│ └────────┬────────┘ └─────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌─────────────────┐ ┌─────────────────┐ │
-│ │ CoppeliaSim │ │ MQTT Publisher │ │
-│ │ Bridge │ └────────┬────────┘ │
-│ └─────────────────┘ │ │
-└───────────────────────────────────────────┼──────────────────┘
-│
-▼
-┌─────────────────┐
-│ TimescaleDB │
-│ (InfluxDB) │
-└─────────────────┘
+│              Python Middleware Layer                        │
+│ ┌──────────────────────────────────────────────────────┐    │
+│ │ PLC-Driver.py (OPC UA Client - Phase 3)              │    │
+│ └──────────────────┬───────────────────────────────────┘    │
+│                    │                                        │
+│ ┌──────────────────▼───────────────────────────────────┐    │
+│ │ Main.py (Orchestrator - Phase 3)                     │    │
+│ └──────┬────────────────────┬──────────────────────────┘    │
+│        │                    │                               │
+│        ▼                    ▼                               │
+│ ┌─────────────────┐ ┌─────────────────┐                     │
+│ │ IK Solver (ikpy)│ │ AAS Server      │                     │
+│ └────────┬────────┘ └─────────────────┘                     │
+│          │                                                  │
+│          ▼                                                  │
+│ ┌─────────────────┐ ┌─────────────────┐                     │
+│ │ CoppeliaSim     │ │ MQTT Publisher  │                     │
+│ │ Bridge          │ └────────┬────────┘                     │
+│ └─────────────────┘          │                              │
+└──────────────────────────────┼──────────────────────────────┘
+                               │
+                               ▼
+                     ┌─────────────────┐
+                     │ TimescaleDB     │
+                     │ (InfluxDB)      │
+                     └─────────────────┘
 
 
 ## 🔧 Tech Stack
 
-| Layer | Technology | Role |
-|-------|-----------|------|
-| PLC | Siemens S7-1500T + TIA Portal V17 | Real-time control |
-| Communication | OPC UA, ZMQ, PROFINET, MQTT | Data exchange |
-| Simulation | CoppeliaSim 4.6+ | Robot environment |
-| IK Solver | Python (ikpy) | Digital twin kinematics |
-| Robotics | ROS2 Humble + MoveIt2 | Motion planning |
-| Middleware | Python 3.12+ (Asyncio) | Bridge services |
-| AAS | IDTA (Asset Administration Shell) | Digital twin |
-| Database | TimescaleDB | Time-series storage |
-| Visualization | Grafana | Dashboards |
-| SCADA | Ignition (planned) | HMI |
-| Orchestration | Docker, Docker Compose | Infrastructure |
+| Layer         | Technology                        |         Role            |
+|---------------|-----------------------------------|-------------------------|
+| PLC           | Siemens S7-1500T + TIA Portal V17 | Real-time control       |
+| Communication | OPC UA, ZMQ, PROFINET, MQTT       | Data exchange           |
+| Simulation    | CoppeliaSim 4.6+                  | Robot environment       |
+| IK Solver     | Python (ikpy)                     | Digital twin kinematics |
+| Robotics      | ROS2 Humble + MoveIt2             | Motion planning         |
+| Middleware    | Python 3.12+ (Asyncio)            | Bridge services         |
+| AAS           | IDTA (Asset Administration Shell) | Digital twin            |
+| Database      | TimescaleDB                       | Time-series storage     |
+| Visualization | Grafana                           | Dashboards              |
+| SCADA         | Ignition (planned)                | HMI                     |
+| Orchestration | Docker, Docker Compose            | Infrastructure          |
 
 ## 📁 Project Structure
 GlassSync/
@@ -114,17 +114,17 @@ GlassSync/
 
 ## ✅ Phase 1 — AAS + SCL Integration
 
-Date: 2026-08-21
+Date : 2026-08-21
 Video: https://youtu.be/6XjenCZ8NH8
-Tag:[phase-1-aas-scl](https://github.com/Nebras4u/GlassSync/releases/tag/phase-1-aas-scl)
+Tag  : [Phase 1 Release Notes](https://github.com/Nebras4u/GlassSync/releases/tag/phase-1-aas-scl)
 
 ### What Was Done?
 
-| # | Task | Status | Files |
-|---|------|--------|-------|
-| 1 | Create AAS for ABB IRB 4600 | ✅ Done | aas/GlassSync.json |
-| 2 | Write SCL control logic | ✅ Done | plc/scl/GlassSync.scl |
-| 3 | Define Data Block structure | ✅ Done | plc/db/GlassSync.db |
+| # | Task                        | Status   | Files                |
+|---|-----------------------------|----------|----------------------|
+| 1 | Create AAS for ABB IRB 4600 | ✅ Done | aas/GlassSync.json    |
+| 2 | Write SCL control logic     | ✅ Done | plc/scl/GlassSync.scl |
+| 3 | Define Data Block structure | ✅ Done | plc/db/GlassSync.db   |
 
 ### Key Features
 
@@ -145,19 +145,20 @@ Outputs (Feedback from PLC):
 
 ## ✅ Phase 2 — CoppeliaSim + Python IK Integration
 
-Date: 2026-08-23
-Video: [CoppeliaSim + Python IK Integration](https://youtu.be/5Lwg1ikyXEQ)
-Tag: [CoppeliaSim + Python IK Integration](https://github.com/Nebras4u/GlassSync/releases/tag/Phase-2-CoppeliaSim-Python-IK-Integration)
+Date : 2026-08-23
+Video: Upcoming
+Tag  : [Phase 2 Release Notes](https://github.com/Nebras4u/GlassSync/releases/tag/Phase-2-CoppeliaSim-Python-IK-Integration)
+
 ### What Was Done?
 
-| # | Task | Status | Files |
-|---|------|--------|-------|
-| 1 | ABB-IRB-140 CoppeliaSim integration | ✅ Done | python/src/coppelia_sim_bridge.py |
-| 2 | Python IK solver implementation | ✅ Done | python/src/ik_solver.py |
-| 3 | DH parameter matching (PLC ↔ Python ↔ CoppeliaSim) | ✅ Done | python/src/dh_parameters.py |
-| 4 | Trajectory redesign for new workspace | ✅ Done | python/src/trajectory_planner.py |
-| 5 | IK validation tests | ✅ Done | python/src/test_ik_validation.py |
-| 6 | Robot configuration file | ✅ Done | python/config/robot_config.yaml |
+| # | Task                                               | Status  | Files                             |
+|---|----------------------------------------------------|---------|-----------------------------------|
+| 1 | ABB-IRB-140 CoppeliaSim integration                | ✅ Done | python/src/coppelia_sim_bridge.py |
+| 2 | Python IK solver implementation                    | ✅ Done | python/src/ik_solver.py           |
+| 3 | DH parameter matching (PLC ↔ Python ↔ CoppeliaSim) | ✅ Done | python/src/dh_parameters.py       |
+| 4 | Trajectory redesign for new workspace              | ✅ Done | python/src/trajectory_planner.py  |
+| 5 | IK validation tests                                | ✅ Done | python/src/test_ik_validation.py  |
+| 6 | Robot configuration file                           | ✅ Done | python/config/robot_config.yaml   |
 
 ### Key Technical Decisions
 
@@ -188,24 +189,24 @@ Tag: [CoppeliaSim + Python IK Integration](https://github.com/Nebras4u/GlassSync
 
 **4. New Trajectory Waypoints**
 
-| Waypoint | Position (X, Y, Z, A) | Description |
-|----------|----------------------|-------------|
-| HomePos | [0.3, 0.0, 0.5, 0.0] | Home position |
-| PickUp1 | [0.4, -0.3, 0.3, 0.0] | Pickup point 1 |
-| PickUp2 | [0.4, 0.0, 0.3, 0.0] | Pickup point 2 |
-| PickUp3 | [0.4, 0.3, 0.3, 0.0] | Pickup point 3 |
-| StackingLeft | [0.2, -0.4, 0.2, 0.0] | Left stacking position |
-| StackingRight | [0.2, 0.4, 0.2, 0.0] | Right stacking position |
-| UpTheLinePos | [0.5, 0.0, 0.4, 0.0] | Up-the-line position |
+| Waypoint      | Position (X, Y, Z, A) | Description             |
+|---------------|-----------------------|-------------------------|
+| HomePos       | [0.3, 0.0, 0.5, 0.0]  | Home position           |
+| PickUp1       | [0.4, -0.3, 0.3, 0.0] | Pickup point 1          |
+| PickUp2       | [0.4, 0.0, 0.3, 0.0]  | Pickup point 2          |
+| PickUp3       | [0.4, 0.3, 0.3, 0.0]  | Pickup point 3          |
+| StackingLeft  | [0.2, -0.4, 0.2, 0.0] | Left stacking position  |
+| StackingRight | [0.2, 0.4, 0.2, 0.0]  | Right stacking position |
+| UpTheLinePos  | [0.5, 0.0, 0.4, 0.0]  | Up-the-line position    |
 
 ### Technical Challenges & Solutions
 
-| Challenge | Impact | Solution |
-|-----------|--------|----------|
-| **ABB-IRB-4600 URDF Inconsistency** | Wasted significant time | Switched to ABB-IRB-140 with verified URDF |
-| **DH Parameter Mismatch** | Inconsistent joint angles | Created single source of truth in `dh_parameters.py` |
-| **Workspace Adaptation** | Waypoints out of reach | Redesigned trajectory for IRB-140 workspace |
-| **Coordinate System Differences** | Coordinate confusion | Established clear WCS → Joint → Simulation pipeline |
+| Challenge                           | Impact                    | Solution                                             |
+|-------------------------------------|---------------------------|------------------------------------------------------|
+| **ABB-IRB-4600 URDF Inconsistency** | Wasted significant time   | Switched to ABB-IRB-140 with verified URDF           |
+| **DH Parameter Mismatch**           | Inconsistent joint angles | Created single source of truth in `dh_parameters.py` |
+| **Workspace Adaptation**            | Waypoints out of reach    | Redesigned trajectory for IRB-140 workspace          |
+| **Coordinate System Differences**   | Coordinate confusion      | Established clear WCS → Joint → Simulation pipeline  |
 
 ### Next Steps
 
@@ -252,4 +253,3 @@ GitHub: https://github.com/Nebras4u
 YouTube: https://www.youtube.com/playlist?list=PLMadf0IBbtAE
 
 Built for Industry 4.0 — GlassSync © 2026
-
